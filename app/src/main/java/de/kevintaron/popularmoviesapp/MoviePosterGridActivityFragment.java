@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -49,7 +51,14 @@ public class MoviePosterGridActivityFragment extends Fragment {
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
 
+        updateMovies();
+
         return rootView;
 
+    }
+
+    private void updateMovies() {
+        FetchMoviesTask moviesTask = new FetchMoviesTask(this.getActivity());
+        moviesTask.execute();
     }
 }
