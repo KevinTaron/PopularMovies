@@ -16,20 +16,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.kevintaron.popularmoviesapp.MovieAdapter;
 import de.kevintaron.popularmoviesapp.R;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
     public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
     private String myapikey;
-    private ArrayAdapter<String> mGridMovieposterAdapter;
+    private MovieAdapter mGridMovieposterAdapter;
 
     // These two need to be declared outside the try/catch
     // so that they can be closed in the finally block.
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
 
-    public FetchMoviesTask(Activity myact, ArrayAdapter<String> gridMovieposterAdapter) {
+    public FetchMoviesTask(Activity myact, MovieAdapter gridMovieposterAdapter) {
         mGridMovieposterAdapter = gridMovieposterAdapter;
         myapikey = myact.getString(R.string.apikey);
     }
@@ -125,7 +126,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
         if(movies != null && mGridMovieposterAdapter != null) {
             mGridMovieposterAdapter.clear();
             for(Movie nMovie : movies) {
-                mGridMovieposterAdapter.add(nMovie.getName());
+                mGridMovieposterAdapter.add(nMovie);
             }
         }
     }

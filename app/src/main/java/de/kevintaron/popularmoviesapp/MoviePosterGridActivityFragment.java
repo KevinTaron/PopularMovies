@@ -14,13 +14,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
+import de.kevintaron.popularmoviesapp.models.Movie;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MoviePosterGridActivityFragment extends Fragment {
 
-    private ArrayAdapter<String> mGridMovieposterAdapter;
+    private MovieAdapter mGridMovieposterAdapter;
 
     public MoviePosterGridActivityFragment() {
     }
@@ -30,23 +31,9 @@ public class MoviePosterGridActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_poster_grid, container, false);
 
-        String[] testArray = {
-                "Batman",
-                "Spiderman",
-                "Terminator",
-                "Saw",
-                "X-Men",
-                "Bla",
-                "Etc"
-        };
+        List<Movie> mymovies = new ArrayList<>();
 
-        List<String> testItems = new ArrayList<String>(Arrays.asList(testArray));
-        mGridMovieposterAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.grid_item_movieposter,
-                R.id.grid_item_movieposter_textView,
-                testItems
-        );
+        mGridMovieposterAdapter = new MovieAdapter(getActivity(), R.layout.grid_item_movieposter, mymovies);
 
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
