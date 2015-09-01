@@ -15,6 +15,14 @@ public class Movie {
     public Movie(String name) {
         this.name = name;
     }
+    public Movie(int id, String name, String moviePosterURL, String summary, int vote_average, String release_date) {
+        setId(id);
+        setName(name);
+        setMoviePosterURL(moviePosterURL);
+        setSummary(summary);
+        setVote_average(vote_average);
+        setRelease_date(release_date);
+    }
 
     public int getId() {
         return id;

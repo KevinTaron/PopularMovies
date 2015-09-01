@@ -20,7 +20,7 @@ import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
  */
 public class MoviePosterGridActivityFragment extends Fragment {
 
-    ArrayAdapter<String> mGridMovieposterAdapter;
+    private ArrayAdapter<String> mGridMovieposterAdapter;
 
     public MoviePosterGridActivityFragment() {
     }
@@ -58,7 +58,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
     }
 
     private void updateMovies() {
-        FetchMoviesTask moviesTask = new FetchMoviesTask(this.getActivity());
+        FetchMoviesTask moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter);
         moviesTask.execute();
     }
 }
