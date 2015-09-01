@@ -1,5 +1,16 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/fragment"
-    android:name="de.kevintaron.popularmoviesapp.MoviePosterGridActivityFragment"
-    tools:layout="@layout/fragment_movie_poster_grid" android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/fragment"
+        android:name="de.kevintaron.popularmoviesapp.MoviePosterGridActivityFragment"
+        tools:layout="@layout/fragment_movie_poster_grid" android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</FrameLayout>
+
