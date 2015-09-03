@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -40,8 +42,18 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             holder.moviePoster = (ImageView)item.findViewById(R.id.grid_item_movieposter_imageView);
 
             item.setTag(holder);
-            Movie movie = movies.get(position);
+            final Movie movie = movies.get(position);
             String url = getContext().getString(R.string.api_image_base_url) + movie.getMoviePosterURL();
+
+            item.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    Toast.makeText(context, "Clicked " + movie.getName() + "!!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
 
             Log.i("Test", "mymovie: " + url);
 

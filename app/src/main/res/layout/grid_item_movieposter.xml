@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/grid_item_movieposter_imageView"
-        android:scaleType="fitXY"
-        android:src="@drawable/internship" />
-</LinearLayout>
+        android:src="@drawable/internship"
+         android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+/>

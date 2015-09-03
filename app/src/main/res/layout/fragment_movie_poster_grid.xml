@@ -12,9 +12,8 @@
         android:layout_height="match_parent"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
-        tools:listitem="@layout/grid_item_movieposter" />
+        tools:listitem="@layout/grid_item_movieposter"
+        android:smoothScrollbar="true" />
 
 </FrameLayout>
