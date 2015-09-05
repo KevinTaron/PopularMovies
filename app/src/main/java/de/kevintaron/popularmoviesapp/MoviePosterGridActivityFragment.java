@@ -1,11 +1,16 @@
 package de.kevintaron.popularmoviesapp;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,22 @@ public class MoviePosterGridActivityFragment extends Fragment {
         gridView.setAdapter(mGridMovieposterAdapter);
 
         updateMovies();
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Movie movie = (Movie) adapterView.getItemAtPosition(position);
+                Log.i("test", movie.getName());
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                intent.putExtra("mymovie", movie);
+                startActivity(intent);
+            }
+        });
+
+        // Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+        // startActivity(intent);
+
 
         return rootView;
 

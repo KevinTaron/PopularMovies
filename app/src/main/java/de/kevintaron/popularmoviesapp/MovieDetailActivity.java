@@ -1,26 +1,33 @@
 package de.kevintaron.popularmoviesapp;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class MoviePosterGridActivity extends AppCompatActivity {
+import de.kevintaron.popularmoviesapp.models.Movie;
+
+public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_poster_grid);
+        setContentView(R.layout.activity_movie_detail);
 
+        Movie detailmovie = getIntent().getParcelableExtra("mymovie");
+        Log.i("Detail", detailmovie.getName());
+
+        TextView title = (TextView) findViewById(R.id.detail_movie_title_text);
+        title.setText(detailmovie.getName());
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_movie_poster_grid, menu);
+        getMenuInflater().inflate(R.menu.menu_movie_detail, menu);
         return true;
     }
 

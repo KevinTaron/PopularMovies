@@ -19,6 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MovieDetailActivity"
+            android:label="@string/title_activity_movie_detail"
+            android:parentActivityName=".MoviePosterGridActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MoviePosterGridActivity" />
+            <intent-filter>
+                <action android:name="de.kevintaron.popularmoviesapp.detailview" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

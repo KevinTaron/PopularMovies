@@ -2,6 +2,7 @@ package de.kevintaron.popularmoviesapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,15 +46,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             final Movie movie = movies.get(position);
             String url = getContext().getString(R.string.api_image_base_url) + movie.getMoviePosterURL();
 
-            item.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Toast.makeText(context, "Clicked " + movie.getName() + "!!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
 
             Log.i("Test", "mymovie: " + url);
 

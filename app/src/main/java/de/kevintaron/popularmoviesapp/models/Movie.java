@@ -1,9 +1,12 @@
 package de.kevintaron.popularmoviesapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Kevin on 28.08.2015.
  */
-public class Movie {
+public class Movie implements Parcelable {
 
     private int id;
     private String name;
@@ -72,4 +75,41 @@ public class Movie {
         this.vote_average = vote_average;
     }
 
+
+    protected Movie(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        moviePosterURL = in.readString();
+        summary = in.readString();
+        vote_average = in.readInt();
+        release_date = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(moviePosterURL);
+        dest.writeString(summary);
+        dest.writeInt(vote_average);
+        dest.writeString(release_date);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }
