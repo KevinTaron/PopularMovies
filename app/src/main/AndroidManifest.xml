@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MoviePosterGridActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_movie_poster_grid" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +23,7 @@
         <activity
             android:name=".MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
+            android:configChanges="orientation|screenSize"
             android:parentActivityName=".MoviePosterGridActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

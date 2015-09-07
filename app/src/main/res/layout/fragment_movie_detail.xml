@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:background="@color/gray">
 
         <LinearLayout
             android:orientation="vertical"
@@ -39,12 +40,15 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp">
+                android:padding="0dp"
+                android:background="@color/white"
+                android:layout_margin="16dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingTop="0dp">
 
                     <ImageView
                         android:layout_width="130dp"
@@ -58,7 +62,15 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingLeft="15dp">
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:id="@+id/imageView"
+                            android:src="@android:drawable/ic_dialog_info"
+                            android:foregroundTintMode="screen"
+                            android:tint="@color/primary_material_dark" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -66,7 +78,18 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="2015"
                             android:id="@+id/detail_movie_release"
-                            android:textSize="25dp" />
+                            android:textSize="25dp"
+                            android:textColor="@color/primary_dark_material_dark"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="@string/detail_release_date_titel"
+                            android:id="@+id/detail_release_title"
+                            android:textSize="10dp"
+                            android:singleLine="true" />
 
                         <RatingBar
                             android:layout_width="wrap_content"
@@ -76,15 +99,16 @@
                             android:numStars="10"
                             android:stepSize="0.5"
                             android:rating="0"
-                            android:layout_marginTop="10dp" />
+                            android:layout_marginTop="16dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="Small Text"
+                            android:text="@string/detail_rating_title"
                             android:id="@+id/detail_movie_rating_text"
-                            android:layout_marginTop="5dp" />
+                            android:layout_marginTop="5dp"
+                            android:textSize="10dp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -93,13 +117,35 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/detail_movie_summary" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="@string/detail_overview"
+                            android:id="@+id/detail_overview_title"
+                            android:textSize="10dp"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New Text"
+                            android:id="@+id/detail_movie_summary"
+                            android:textColor="@color/primary_dark_material_dark" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 

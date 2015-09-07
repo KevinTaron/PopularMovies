@@ -24,24 +24,28 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
     public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
     private String myapikey;
     private MovieAdapter mGridMovieposterAdapter;
-    private int page = 0;
+    private int page = 1;
+    private boolean addMovie;
+    private String sortMethod;
 
     // These two need to be declared outside the try/catch
     // so that they can be closed in the finally block.
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
 
-    public FetchMoviesTask(Activity myact, MovieAdapter gridMovieposterAdapter, int page) {
+    public FetchMoviesTask(Activity myact, MovieAdapter gridMovieposterAdapter, int page, boolean addMovie, String sortMethod) {
         mGridMovieposterAdapter = gridMovieposterAdapter;
         myapikey = myact.getString(R.string.apikey);
         this.page = page;
+        this.addMovie = addMovie;
+        this.sortMethod = sortMethod;
     }
 
     @Override
     protected Movie[] doInBackground(String... params) {
         Log.i(LOG_TAG, "Start Sync");
 
-        String sorting = "popularity.desc";
+        String sorting = getSortMethod();
         String movieJsonStr = null;
         Movie[] movieList = null;
 
@@ -96,6 +100,16 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
         return null;
     }
 
+    private String getSortMethod() {
+        String sorting = "popularity.desc";
+
+        if(this.sortMethod == "rated") {
+            sorting = "vote_average.desc";
+        }
+
+        return sorting;
+    }
+
     private Movie[] getMoviesFromJson(String movieJsonStr) throws JSONException {
 
         final String MOVIES_RESULT = "results";
@@ -128,7 +142,10 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
     @Override
     protected void onPostExecute(Movie[] movies) {
         if(movies != null && mGridMovieposterAdapter != null) {
-            mGridMovieposterAdapter.clear();
+            if(!addMovie) {
+                mGridMovieposterAdapter.clear();
+            }
+
             for(Movie nMovie : movies) {
                 mGridMovieposterAdapter.add(nMovie);
             }

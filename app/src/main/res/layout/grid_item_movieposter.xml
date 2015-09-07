@@ -6,5 +6,5 @@
         android:id="@+id/grid_item_movieposter_imageView"
         android:src="@drawable/internship"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
 />

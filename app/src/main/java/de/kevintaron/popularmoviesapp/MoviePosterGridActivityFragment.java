@@ -1,17 +1,15 @@
 package de.kevintaron.popularmoviesapp;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +18,12 @@ import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
 import de.kevintaron.popularmoviesapp.models.EndlessScrollListener;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class MoviePosterGridActivityFragment extends Fragment {
 
     private MovieAdapter mGridMovieposterAdapter;
+    private FetchMoviesTask moviesTask;
+    private String sortMethod = "popular";
+    private GridView gridView;
 
     public MoviePosterGridActivityFragment() {
     }
@@ -39,7 +37,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
         mGridMovieposterAdapter = new MovieAdapter(getActivity(), R.layout.grid_item_movieposter, mymovies);
 
-        GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
+        gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
 
         updateMovies(1);
@@ -49,34 +47,38 @@ public class MoviePosterGridActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Movie movie = (Movie) adapterView.getItemAtPosition(position);
-                Log.i("test", movie.getName());
                 Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
                 intent.putExtra("mymovie", movie);
                 startActivity(intent);
             }
         });
 
-//        gridView.setOnScrollListener(new EndlessScrollListener() {
-          //  @Override
-  //          public void onLoadMore(int page, int totalItemsCount) {
-    //            Log.d("Gridview", "Load more Items");
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
-      //          updateMovies(page);
-                // or customLoadMoreDataFromApi(totalItemsCount);
-        //    }
-        //});
+        gridView.setOnScrollListener(new EndlessScrollListener(gridView) {
 
-        // Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-        // startActivity(intent);
-
+            @Override
+            public void onLoadMore(int page) {
+                updateMovies(page);
+            }
+        });
 
         return rootView;
 
     }
 
     private void updateMovies(int page) {
-        FetchMoviesTask moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter, page);
-        moviesTask.execute();
+        if(moviesTask == null) {
+            moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter, page, false, sortMethod);
+            moviesTask.execute();
+        } else {
+            moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter, page, true, sortMethod);
+            moviesTask.execute();
+        }
     }
+
+    public void updateSortMethod(String sortMethod) {
+        this.sortMethod = sortMethod;
+        mGridMovieposterAdapter.clear();
+        updateMovies(1);
+    }
+
 }

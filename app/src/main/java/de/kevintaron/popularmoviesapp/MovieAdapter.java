@@ -1,16 +1,11 @@
 package de.kevintaron.popularmoviesapp;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -30,33 +25,27 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         this.movies = movies;
     }
 
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View item = convertView;
         MovieHolder holder = null;
 
-        if(item == null) {
-            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            item = inflater.inflate(layoutResourceId, parent, false);
-
+        if (convertView == null) {
             holder = new MovieHolder();
-            holder.moviePoster = (ImageView)item.findViewById(R.id.grid_item_movieposter_imageView);
-
-            item.setTag(holder);
-            final Movie movie = movies.get(position);
-            String url = getContext().getString(R.string.api_image_base_url) + movie.getMoviePosterURL();
-
-
-
-            Log.i("Test", "mymovie: " + url);
-
-            Picasso.with(context).setIndicatorsEnabled(true);
-            Picasso.with(context).load(url).into(holder.moviePoster);
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.grid_item_movieposter, null);
+            holder.moviePoster = (ImageView) convertView.findViewById(R.id.grid_item_movieposter_imageView);
+            convertView.setTag(holder);
         } else {
-            holder = (MovieHolder)item.getTag();
+            holder = (MovieHolder) convertView.getTag();
         }
 
-        return item;
+
+        final Movie movie = movies.get(position);
+        String url = getContext().getString(R.string.api_image_base_url) + movie.getMoviePosterURL();
+
+        Picasso.with(context).setIndicatorsEnabled(true);
+        Picasso.with(context).load(url).into(holder.moviePoster);
+        return convertView;
     }
 
     static class MovieHolder {

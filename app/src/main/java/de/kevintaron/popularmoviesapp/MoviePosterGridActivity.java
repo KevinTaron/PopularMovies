@@ -1,9 +1,9 @@
 package de.kevintaron.popularmoviesapp;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,9 +30,18 @@ public class MoviePosterGridActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        FragmentManager fm = getSupportFragmentManager();
+        MoviePosterGridActivityFragment fragment = (MoviePosterGridActivityFragment)fm.findFragmentById(R.id.movie_grid_fragment);
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sort_popular) {
+            Log.i("Action", "sort by pop");
+            fragment.updateSortMethod("popular");
+            return true;
+        }
+        if (id == R.id.action_sort_rated) {
+            Log.i("Action", "sort by rated");
+            fragment.updateSortMethod("rated");
             return true;
         }
 
