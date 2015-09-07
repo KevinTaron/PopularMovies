@@ -50,6 +50,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
             Log.i("Test", "mymovie: " + url);
 
+            Picasso.with(context).setIndicatorsEnabled(true);
             Picasso.with(context).load(url).into(holder.moviePoster);
         } else {
             holder = (MovieHolder)item.getTag();

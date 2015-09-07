@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import de.kevintaron.popularmoviesapp.models.Movie;
 
@@ -16,11 +19,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-        Movie detailmovie = getIntent().getParcelableExtra("mymovie");
-        Log.i("Detail", detailmovie.getName());
-
-        TextView title = (TextView) findViewById(R.id.detail_movie_title_text);
-        title.setText(detailmovie.getName());
     }
 
 

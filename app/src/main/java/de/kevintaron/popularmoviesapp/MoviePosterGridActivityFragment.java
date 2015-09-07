@@ -2,6 +2,7 @@ package de.kevintaron.popularmoviesapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
+import de.kevintaron.popularmoviesapp.models.EndlessScrollListener;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 /**
@@ -40,7 +42,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
 
-        updateMovies();
+        updateMovies(1);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -54,6 +56,17 @@ public class MoviePosterGridActivityFragment extends Fragment {
             }
         });
 
+//        gridView.setOnScrollListener(new EndlessScrollListener() {
+          //  @Override
+  //          public void onLoadMore(int page, int totalItemsCount) {
+    //            Log.d("Gridview", "Load more Items");
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+      //          updateMovies(page);
+                // or customLoadMoreDataFromApi(totalItemsCount);
+        //    }
+        //});
+
         // Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
         // startActivity(intent);
 
@@ -62,8 +75,8 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
     }
 
-    private void updateMovies() {
-        FetchMoviesTask moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter);
+    private void updateMovies(int page) {
+        FetchMoviesTask moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter, page);
         moviesTask.execute();
     }
 }

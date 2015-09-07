@@ -24,15 +24,17 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
     public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
     private String myapikey;
     private MovieAdapter mGridMovieposterAdapter;
+    private int page = 0;
 
     // These two need to be declared outside the try/catch
     // so that they can be closed in the finally block.
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
 
-    public FetchMoviesTask(Activity myact, MovieAdapter gridMovieposterAdapter) {
+    public FetchMoviesTask(Activity myact, MovieAdapter gridMovieposterAdapter, int page) {
         mGridMovieposterAdapter = gridMovieposterAdapter;
         myapikey = myact.getString(R.string.apikey);
+        this.page = page;
     }
 
     @Override
@@ -47,10 +49,12 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
             final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
             final String SORT_PARAM = "sort_by";
             final String APIKEY_PARAM = "api_key";
+            final String PAGE_PARAM = "page";
 
             Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
                     .appendQueryParameter(SORT_PARAM, sorting)
                     .appendQueryParameter(APIKEY_PARAM, myapikey)
+                    .appendQueryParameter(PAGE_PARAM, Integer.toString(page))
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -111,7 +115,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movieObject = movieArray.getJSONObject(i);
             Movie nMovie = new Movie(movieObject.getInt(ID), movieObject.getString(MOVIE_TITLE),  movieObject.getString(MOVIE_POSTERURL), movieObject.getString(SUMMARY),
-                    movieObject.getInt(VOTE_AVERAGE), movieObject.getString(MOVIE_RELEASEDATE));
+                    movieObject.getString(VOTE_AVERAGE), movieObject.getString(MOVIE_RELEASEDATE));
 
             movieList[i] = nMovie;
 
