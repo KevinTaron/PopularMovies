@@ -13,6 +13,9 @@ import java.util.List;
 
 import de.kevintaron.popularmoviesapp.models.Movie;
 
+/**
+ * Movie Adapter - Adapter for Gridview in MoviePosterGridActivityFragment
+ */
 public class MovieAdapter extends ArrayAdapter<Movie> {
     Context context;
     int layoutResourceId;
@@ -26,7 +29,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        MovieHolder holder = null;
+        MovieHolder holder;
 
         if (convertView == null) {
             holder = new MovieHolder();
