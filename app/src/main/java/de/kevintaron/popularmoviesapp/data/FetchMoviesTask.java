@@ -142,7 +142,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
     @Override
     protected void onPostExecute(Movie[] movies) {
         if(movies != null && mGridMovieposterAdapter != null) {
-            if(!addMovie) {
+            if(!addMovie || page == 1) {
                 mGridMovieposterAdapter.clear();
             }
 

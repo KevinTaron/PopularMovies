@@ -3,9 +3,7 @@ package de.kevintaron.popularmoviesapp;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -77,7 +75,6 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
     public void updateSortMethod(String sortMethod) {
         this.sortMethod = sortMethod;
-        mGridMovieposterAdapter.clear();
         updateMovies(1);
     }
 
