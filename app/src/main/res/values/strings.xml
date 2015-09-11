@@ -11,4 +11,6 @@
     <string name="detail_overview">Overview</string>
     <string name="detail_release_date_titel">Year of release</string>
     <string name="detail_rating_title">Rating: </string>
+
+    <string name="pref_favorites">Pref_Favorites</string>
 </resources>

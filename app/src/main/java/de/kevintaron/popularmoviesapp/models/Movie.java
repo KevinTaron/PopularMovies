@@ -3,18 +3,31 @@ package de.kevintaron.popularmoviesapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 /**
  * Movie Model to create a Movie for the Grid and DetailView
  * Created by Kevin on 28.08.2015.
  */
-public class Movie implements Parcelable {
+@Table(name="Movies")
+public class Movie extends Model implements Parcelable {
 
+    @Column(name="movie_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "poster_url")
     private String moviePosterURL;
+    @Column(name = "summary")
     private String summary;
+    @Column(name = "vote_average")
     private float vote_average;
+    @Column(name = "release_date")
     private String release_date;
+
+    public Movie() { super(); }
 
     /**
      * Movie Constructor
@@ -34,7 +47,7 @@ public class Movie implements Parcelable {
      * @param release_date set the release date of the movie
      */
     public Movie(int id, String name, String moviePosterURL, String summary, String vote_average, String release_date) {
-        setId(id);
+        setMovieId(id);
         setName(name);
         setMoviePosterURL(moviePosterURL);
         setSummary(summary);
@@ -46,15 +59,17 @@ public class Movie implements Parcelable {
      * Get the ID
      * @return the id
      */
-    public int getId() {
+    public int getMovieId() {
         return id;
     }
+
+    public String getMovieIdasString() { return Integer.toString(id); }
 
     /**
      * Set the ID
      * @param id set the ID
      */
-    public void setId(int id) {
+    public void setMovieId(int id) {
         this.id = id;
     }
 

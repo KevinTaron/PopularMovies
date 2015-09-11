@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="apikey">API-KEY</string>
+    <string name="apikey">APIKEY</string>
     <string name="api_image_base_url">http://image.tmdb.org/t/p/w185/</string>
 </resources>

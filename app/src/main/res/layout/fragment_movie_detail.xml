@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Large Text"
+                    android:text="Guardians of the Galaxy"
                     android:id="@+id/detail_movie_title_text"
                     android:textIsSelectable="false"
                     android:textColor="@color/white"
@@ -34,6 +34,7 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:textSize="30dp" />
+
             </RelativeLayout>
 
             <LinearLayout
@@ -64,13 +65,36 @@
                         android:layout_height="match_parent"
                         android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:id="@+id/imageView"
-                            android:src="@android:drawable/ic_dialog_info"
-                            android:foregroundTintMode="screen"
-                            android:tint="@color/primary_material_dark" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:measureWithLargestChild="false">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:id="@+id/imageView"
+                                    android:src="@android:drawable/ic_dialog_info"
+                                    android:foregroundTintMode="screen"
+                                    android:tint="@color/primary_material_dark" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@android:drawable/star_off"
+                                    android:id="@+id/detail_movie_fav"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginTop="-5dp" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -111,6 +135,7 @@
                             android:textSize="10dp" />
 
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

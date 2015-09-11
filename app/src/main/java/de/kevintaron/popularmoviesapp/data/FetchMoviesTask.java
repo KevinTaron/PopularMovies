@@ -133,7 +133,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
 
             movieList[i] = nMovie;
 
-            Log.i(LOG_TAG, "Movie: " + nMovie.getName() + " " + nMovie.getMoviePosterURL() + " " + nMovie.getRelease_date());
+            Log.i(LOG_TAG, "Movie: " + nMovie.getName() + " " + nMovie.getMoviePosterURL() + " " + nMovie.getRelease_date() + " " + nMovie.getMovieId());
         }
 
         return movieList;
