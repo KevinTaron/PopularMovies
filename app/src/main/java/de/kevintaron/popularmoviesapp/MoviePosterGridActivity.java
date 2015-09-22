@@ -7,13 +7,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 public class MoviePosterGridActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_poster_grid);
-
     }
 
 
@@ -42,6 +42,11 @@ public class MoviePosterGridActivity extends AppCompatActivity {
         if (id == R.id.action_sort_rated) {
             Log.i("Action", "sort by rated");
             fragment.updateSortMethod("rated");
+            return true;
+        }
+        if (id == R.id.action_sort_fav) {
+            Log.i("Action", "sort by fav");
+            fragment.updateSortMethod("fav");
             return true;
         }
 

@@ -1,30 +1,53 @@
 package de.kevintaron.popularmoviesapp.models;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.provider.ContentUri;
+import com.raizlabs.android.dbflow.annotation.provider.TableEndpoint;
+import com.raizlabs.android.dbflow.structure.provider.BaseProviderModel;
+import com.raizlabs.android.dbflow.structure.provider.ContentUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import de.kevintaron.popularmoviesapp.data.MovieDatabase;
 
 /**
  * Movie Model to create a Movie for the Grid and DetailView
  * Created by Kevin on 28.08.2015.
  */
-@Table(name="Movies")
-public class Movie extends Model implements Parcelable {
+@TableEndpoint(name = Movie.NAME, contentProviderName = "MovieDatabase")
+@Table(databaseName = MovieDatabase.NAME)
+public class Movie extends BaseProviderModel<Movie> implements Parcelable {
 
-    @Column(name="movie_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public static final String NAME = "Movie";
+
+    @ContentUri(path = NAME, type = ContentUri.ContentType.VND_MULTIPLE + NAME)
+    public static final Uri CONTENT_URI = ContentUtils.buildUri(MovieDatabase.AUTHORITY, new String[]{NAME});
+
+
+    @Column
+    @PrimaryKey
     private int id;
-    @Column(name = "name")
+    @Column
     private String name;
-    @Column(name = "poster_url")
+    @Column
     private String moviePosterURL;
-    @Column(name = "summary")
+    @Column
     private String summary;
-    @Column(name = "vote_average")
+    @Column
     private float vote_average;
-    @Column(name = "release_date")
+    @Column
     private String release_date;
 
     public Movie() { super(); }
@@ -54,6 +77,10 @@ public class Movie extends Model implements Parcelable {
         setVote_average(Float.valueOf(vote_average));
         setRelease_date(release_date);
     }
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     /**
      * Get the ID
@@ -151,6 +178,26 @@ public class Movie extends Model implements Parcelable {
      */
     public void setVote_average(float vote_average) {
         this.vote_average = vote_average;
+    }
+
+    @Override
+    public Uri getDeleteUri() {
+        return Movie.CONTENT_URI;
+    }
+
+    @Override
+    public Uri getInsertUri() {
+        return Movie.CONTENT_URI;
+    }
+
+    @Override
+    public Uri getUpdateUri() {
+        return Movie.CONTENT_URI;
+    }
+
+    @Override
+    public Uri getQueryUri() {
+        return Movie.CONTENT_URI;
     }
 
     /**

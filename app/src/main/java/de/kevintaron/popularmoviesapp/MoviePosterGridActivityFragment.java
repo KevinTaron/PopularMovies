@@ -1,8 +1,10 @@
 package de.kevintaron.popularmoviesapp;
 
 import android.content.Intent;
+import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
     private FetchMoviesTask moviesTask;
     private String sortMethod = "popular";
     private GridView gridView;
+    private boolean mTwoPane = false;
 
     public MoviePosterGridActivityFragment() {
     }
@@ -38,6 +41,10 @@ public class MoviePosterGridActivityFragment extends Fragment {
         gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
 
+        if(rootView.findViewById(R.id.movie_detail_container) != null) {
+            mTwoPane = true;
+        }
+
         updateMovies(1);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,9 +52,20 @@ public class MoviePosterGridActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Movie movie = (Movie) adapterView.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                intent.putExtra("mymovie", movie);
-                startActivity(intent);
+                if(mTwoPane) {
+                    Bundle arguments = new Bundle();
+//                    arguments.putString(MovieDetailActivityFragment.ARG_ITEM_ID, id);
+                    arguments.putParcelable("mymovie", movie);
+                    MovieDetailActivityFragment fragment = new MovieDetailActivityFragment();
+                    fragment.setArguments(arguments);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, fragment)
+                            .commit();
+                } else {
+                    Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                    intent.putExtra("mymovie", movie);
+                    startActivity(intent);
+                }
             }
         });
 

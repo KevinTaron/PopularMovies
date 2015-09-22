@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,17 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.raizlabs.android.dbflow.sql.language.Select;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.kevintaron.popularmoviesapp.data.FestMovieDetailsTask;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 /**
@@ -55,35 +60,46 @@ public class MovieDetailActivityFragment extends Fragment {
 
         // Get the Movie from Intent
         detail_movie = getActivity().getIntent().getParcelableExtra("mymovie");
-
-        sharedPref = context.getSharedPreferences(preference_file_key, Context.MODE_PRIVATE);
-
-        // Load the Title
-        title.setText(detail_movie.getName());
-
-        // Load Image to ImageView
-        String url = getActivity().getString(R.string.api_image_base_url) + detail_movie.getMoviePosterURL();
-        Picasso.with(getActivity()).setIndicatorsEnabled(true);
-        Picasso.with(getActivity()).load(url).into(poster);
-
-        // Load the Summary
-        summary.setText(detail_movie.getSummary());
-
-        // Rating
-        ratingBar.setRating(detail_movie.getVote_average());
-        ratingText.setText(ratingText.getText().toString() + " " + detail_movie.getVote_average() + " / 10");
-
-        // load the Release Date
-        String[] release_date = detail_movie.getRelease_date().split("-");
-        release.setText(release_date[0]);
-
-        // fav
-        if(isFavorite()) {
-            fav.setImageDrawable(star_on);
+        if(detail_movie == null) {
+            detail_movie = getArguments().getParcelable("mymovie");
         }
 
-//        List<Movie> queryResults = new Select().from(Movie.class).orderBy("Name ASC").limit(10).execute();
-//        Log.i("DB", queryResults.get(0).getName());
+        if(detail_movie != null) {
+
+            sharedPref = context.getSharedPreferences(preference_file_key, Context.MODE_PRIVATE);
+
+            // Load the Title
+            title.setText(detail_movie.getName());
+
+            // Load Image to ImageView
+            String url = getActivity().getString(R.string.api_image_base_url) + detail_movie.getMoviePosterURL();
+            Picasso.with(getActivity()).setIndicatorsEnabled(true);
+            Picasso.with(getActivity()).load(url).into(poster);
+
+            // Load the Summary
+            summary.setText(detail_movie.getSummary());
+
+            // Rating
+            ratingBar.setRating(detail_movie.getVote_average());
+            ratingText.setText(ratingText.getText().toString() + " " + detail_movie.getVote_average() + " / 10");
+
+            // load the Release Date
+            String[] release_date = detail_movie.getRelease_date().split("-");
+            release.setText(release_date[0]);
+
+            // fav
+            if(isFavorite()) {
+                fav.setImageDrawable(star_on);
+            }
+
+            fetchMovieDetails();
+        }
+
+
+
+//        List<Movie> queryResults = new Select().from(Movie.class).orderBy("Name ASC").limit(10).queryList();
+//        Log.i("DB", queryResults.get(1).getName());
+
 
 
         return rootView;
@@ -95,14 +111,18 @@ public class MovieDetailActivityFragment extends Fragment {
             sharedPref = context.getSharedPreferences(preference_file_key, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
 
-            if(isFavorite()) {
-                editor.remove(detail_movie.getMovieIdasString());
-                editor.commit();
-                fav.setImageDrawable(star_off);
-            } else {
-                editor.putString(detail_movie.getMovieIdasString(), detail_movie.getName());
-                editor.commit();
-                fav.setImageDrawable(star_on);
+            if(editor != null) {
+
+                if(isFavorite()) {
+                    editor.remove(detail_movie.getMovieIdasString());
+                    editor.commit();
+                    fav.setImageDrawable(star_off);
+                } else {
+                    editor.putString(detail_movie.getMovieIdasString(), detail_movie.getName());
+                    editor.commit();
+                    fav.setImageDrawable(star_on);
+                    detail_movie.save();
+                }
             }
         }
     }
@@ -118,5 +138,13 @@ public class MovieDetailActivityFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private void fetchMovieDetails() {
+        FestMovieDetailsTask movieDetailsTask = new FestMovieDetailsTask("videos", detail_movie.getMovieIdasString());
+        movieDetailsTask.execute();
+
+        FestMovieDetailsTask movieDetailsTask2 = new FestMovieDetailsTask("reviews", detail_movie.getMovieIdasString());
+        movieDetailsTask2.execute();
     }
 }
