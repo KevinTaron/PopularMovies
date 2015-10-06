@@ -10,6 +10,7 @@
     <string name="title_activity_movie_poster_grid">Popular Movies App</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="detail_overview">Overview</string>
+    <string name="detail_trailer_title">Trailer</string>
     <string name="detail_release_date_titel">Year of release</string>
     <string name="detail_rating_title">Rating: </string>
 

@@ -3,20 +3,18 @@ package de.kevintaron.popularmoviesapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.raizlabs.android.dbflow.sql.language.Select;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.BindDrawable;
@@ -37,6 +35,7 @@ public class MovieDetailActivityFragment extends Fragment {
     @Bind(R.id.detail_movie_rating_text) TextView ratingText;
     @Bind(R.id.detail_movie_release) TextView release;
     @Bind(R.id.detail_movie_fav) ImageView fav;
+    @Bind(R.id.trailer_list) LinearLayout trailers;
 
     @BindDrawable(android.R.drawable.star_off) Drawable star_off;
     @BindDrawable(android.R.drawable.star_on) Drawable star_on;
@@ -63,6 +62,15 @@ public class MovieDetailActivityFragment extends Fragment {
         if(detail_movie == null) {
             detail_movie = getArguments().getParcelable("mymovie");
         }
+
+        String[] values = { "Trailer 1", "Trailer 2", "Trailer 3"};
+
+        for(int i = 0; i < values.length; i++) {
+            TextView trailer = new TextView(new ContextThemeWrapper(getActivity(), R.style.TrailerStyle));
+            trailer.setText(values[i]);
+            trailers.addView(trailer);
+        }
+
 
         if(detail_movie != null) {
 
@@ -117,6 +125,7 @@ public class MovieDetailActivityFragment extends Fragment {
                     editor.remove(detail_movie.getMovieIdasString());
                     editor.commit();
                     fav.setImageDrawable(star_off);
+                    detail_movie.delete();
                 } else {
                     editor.putString(detail_movie.getMovieIdasString(), detail_movie.getName());
                     editor.commit();

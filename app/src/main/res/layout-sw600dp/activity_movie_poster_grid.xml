@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
 
-    <fragment android:id="@+id/movie_list"
+    <fragment android:id="@+id/movie_grid_fragment"
         android:name="de.kevintaron.popularmoviesapp.MoviePosterGridActivityFragment" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="2"
         tools:layout="@layout/fragment_movie_poster_grid" />

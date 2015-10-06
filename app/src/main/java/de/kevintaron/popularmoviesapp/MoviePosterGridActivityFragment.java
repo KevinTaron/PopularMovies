@@ -1,9 +1,10 @@
 package de.kevintaron.popularmoviesapp;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.Debug;
-import android.support.v4.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +12,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.raizlabs.android.dbflow.sql.language.Select;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import butterknife.BindString;
 import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
 import de.kevintaron.popularmoviesapp.models.EndlessScrollListener;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 public class MoviePosterGridActivityFragment extends Fragment {
+    @BindString(R.string.pref_favorites) String preference_file_key;
+    SharedPreferences sharedPref;
 
     private MovieAdapter mGridMovieposterAdapter;
     private FetchMoviesTask moviesTask;
@@ -40,10 +47,6 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
         gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
-
-        if(rootView.findViewById(R.id.movie_detail_container) != null) {
-            mTwoPane = true;
-        }
 
         updateMovies(1);
 
@@ -73,7 +76,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
             @Override
             public void onLoadMore(int page) {
-                updateMovies(page);
+                if(sortMethod != "fav") { updateMovies(page); }
             }
         });
 
@@ -93,7 +96,34 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
     public void updateSortMethod(String sortMethod) {
         this.sortMethod = sortMethod;
-        updateMovies(1);
+        if(sortMethod == "fav") {
+            showFavs();
+        } else {
+            updateMovies(1);
+        }
+    }
+
+    public void showFavs() {
+        mGridMovieposterAdapter.clear();
+        sharedPref = getActivity().getSharedPreferences(preference_file_key, Context.MODE_PRIVATE);
+        Map<String,?> keys = sharedPref.getAll();
+
+        Log.i("key", Integer.toString(keys.size()));
+
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            Log.i("map values",entry.getKey() + ": " +
+                    entry.getValue().toString());
+        }
+
+        List<Movie> queryResults = new Select().from(Movie.class).orderBy("Name ASC").limit(10).queryList();
+
+        for(int i  = 0; i < queryResults.size(); i++) {
+            mGridMovieposterAdapter.add(queryResults.get(i));
+        }
+    }
+
+    public void setSplitscreen(boolean split) {
+        mTwoPane = split;
     }
 
 }
