@@ -1,8 +1,10 @@
 package de.kevintaron.popularmoviesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
@@ -62,15 +64,6 @@ public class MovieDetailActivityFragment extends Fragment {
         if(detail_movie == null) {
             detail_movie = getArguments().getParcelable("mymovie");
         }
-
-        String[] values = { "Trailer 1", "Trailer 2", "Trailer 3"};
-
-        for(int i = 0; i < values.length; i++) {
-            TextView trailer = new TextView(new ContextThemeWrapper(getActivity(), R.style.TrailerStyle));
-            trailer.setText(values[i]);
-            trailers.addView(trailer);
-        }
-
 
         if(detail_movie != null) {
 
@@ -149,11 +142,32 @@ public class MovieDetailActivityFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    public void addTrailer(String tailername, final String videoid) {
+        final TextView trailer = new TextView(new ContextThemeWrapper(getActivity(), R.style.TrailerStyle));
+        trailer.setText(tailername);
+
+        trailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent videoClient = new Intent(Intent.ACTION_VIEW);
+                videoClient.setData(Uri.parse("http://m.youtube.com/watch?v=" + videoid));
+                startActivityForResult(videoClient, 1234);
+            }
+        });
+
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                trailers.addView(trailer);
+            }
+        });
+    }
+
     private void fetchMovieDetails() {
-        FestMovieDetailsTask movieDetailsTask = new FestMovieDetailsTask("videos", detail_movie.getMovieIdasString());
+        FestMovieDetailsTask movieDetailsTask = new FestMovieDetailsTask(this, "videos", detail_movie.getMovieIdasString());
         movieDetailsTask.execute();
 
-        FestMovieDetailsTask movieDetailsTask2 = new FestMovieDetailsTask("reviews", detail_movie.getMovieIdasString());
+        FestMovieDetailsTask movieDetailsTask2 = new FestMovieDetailsTask(this, "reviews", detail_movie.getMovieIdasString());
         movieDetailsTask2.execute();
     }
 }
