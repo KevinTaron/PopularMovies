@@ -1,6 +1,5 @@
 package de.kevintaron.popularmoviesapp.data;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,8 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-import de.kevintaron.popularmoviesapp.R;
+import de.kevintaron.popularmoviesapp.MovieDetailActivityFragment;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 /**
@@ -28,6 +26,7 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
     private String method;
     private String myapikey;
     private String movieID;
+    private MovieDetailActivityFragment detailFragment;
 
     // These two need to be declared outside the try/catch
     // so that they can be closed in the finally block.
@@ -35,7 +34,8 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
     BufferedReader reader = null;
 
 
-    public FestMovieDetailsTask(String method, String movieID) {
+    public FestMovieDetailsTask(MovieDetailActivityFragment thefragment, String method, String movieID) {
+        this.detailFragment = thefragment;
         this.method = method;
         myapikey = "fce9e5f238e7933224d9bcb4f1b5d201";
         this.movieID = movieID;
@@ -127,7 +127,7 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
 
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movieObject = movieArray.getJSONObject(i);
-            Log.i(LOG_TAG, "Movie: " + movieObject.getString(NAME) + " " + movieObject.getString(KEY) + " " + movieObject.getString(SITE));
+            detailFragment.addTrailer(movieObject.getString(NAME) + " (" + movieObject.getString(SITE) + ")", movieObject.getString(KEY));
         }
 
     }
