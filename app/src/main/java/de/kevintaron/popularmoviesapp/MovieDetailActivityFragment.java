@@ -7,8 +7,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -48,12 +54,17 @@ public class MovieDetailActivityFragment extends Fragment {
     Context context;
     SharedPreferences sharedPref;
 
+    private ShareActionProvider mShareActionProvider;
+    private String firstTrailer;
+
     public MovieDetailActivityFragment() {
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         ButterKnife.bind(this, rootView);
 
@@ -169,5 +180,60 @@ public class MovieDetailActivityFragment extends Fragment {
 
         FestMovieDetailsTask movieDetailsTask2 = new FestMovieDetailsTask(this, "reviews", detail_movie.getMovieIdasString());
         movieDetailsTask2.execute();
+
+        if(mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareTrailerIntent());
+        }
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.menu_movie_detail, menu);
+
+        // Retrieve the share menu item
+        MenuItem menuItem = menu.findItem(R.id.menu_item_share);
+
+        // Get the provider and hold onto it to set/change the share intent.
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+        if(mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareTrailerIntent());
+        }
+        // If onLoadFinished happens before this, we can go ahead and set the share intent now.
+    }
+
+
+    private Intent createShareTrailerIntent() {
+        Log.i("Test", "trailershare");
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        String sharetext = "Check this cool trailer: " + this.firstTrailer;
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sharetext);
+        return shareIntent;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result = super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.menu_item_share) {
+            share();
+            return true;
+        }
+
+        return result;
+    }
+
+    public void setTrailer(String firstTrailer) {
+        this.firstTrailer = "http://youtube.com/watch?v=" + firstTrailer;
+    }
+
+    public void share() {
+        startActivity(createShareTrailerIntent());
+    }
+
+
 }

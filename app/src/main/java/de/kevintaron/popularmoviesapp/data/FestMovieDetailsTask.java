@@ -128,6 +128,7 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movieObject = movieArray.getJSONObject(i);
             detailFragment.addTrailer(movieObject.getString(NAME) + " (" + movieObject.getString(SITE) + ")", movieObject.getString(KEY));
+            if(i == 0) { detailFragment.setTrailer(movieObject.getString(KEY)); }
         }
 
     }
