@@ -3,6 +3,8 @@ package de.kevintaron.popularmoviesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -84,7 +87,25 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
     }
 
+    private boolean checkIfOnline() {
+        ConnectivityManager cm = (ConnectivityManager)this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void updateMovies(int page) {
+        if(!checkIfOnline()) {
+            Toast.makeText(this.getActivity(), R.string.offline_text, Toast.LENGTH_SHORT).show();
+            updateSortMethod("fav");
+            return;
+        }
+
         if(moviesTask == null) {
             moviesTask = new FetchMoviesTask(this.getActivity(), mGridMovieposterAdapter, page, false, sortMethod);
             moviesTask.execute();

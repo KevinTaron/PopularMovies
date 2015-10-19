@@ -61,6 +61,8 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
                     .appendQueryParameter(APIKEY_PARAM, myapikey)
                     .build();
 
+            Log.i("URL", builtUri.toString());
+
             URL url = new URL(builtUri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -94,6 +96,8 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
 
             if(method == "videos") {
                 getVideosFromJson(movieJsonStr);
+            } else if (method == "reviews") {
+                getReviewsFromJson(movieJsonStr);
             }
 
 //            movieList = getMoviesFromJson(movieJsonStr);
@@ -109,7 +113,18 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
 
     }
 
-    private void getReviewsFromJson() {
+    private void getReviewsFromJson(String json) throws JSONException {
+        final String REVIEWS = "results";
+        final String REVIEW_AUTHOR = "author";
+        final String REVIEW_CONTENT = "content";
+
+        JSONObject movieJson = new JSONObject(json);
+        JSONArray reviewArray = movieJson.getJSONArray(REVIEWS);
+
+        for (int i = 0; i < reviewArray.length(); i++) {
+            JSONObject reviewObject = reviewArray.getJSONObject(i);
+            detailFragment.addReview(reviewObject.getString(REVIEW_AUTHOR), reviewObject.getString(REVIEW_CONTENT));
+        }
 
     }
 
@@ -122,8 +137,6 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
 
         JSONObject movieJson = new JSONObject(json);
         JSONArray movieArray = movieJson.getJSONArray(MOVIES_RESULT);
-
-        Movie[] movieList = new Movie[movieArray.length()];
 
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movieObject = movieArray.getJSONObject(i);

@@ -11,10 +11,15 @@
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="detail_overview">Overview</string>
     <string name="detail_trailer_title">Trailer</string>
+    <string name="detail_trailer_placeholder">No Trailers available</string>
+    <string name="detail_reviews_title">Reviews</string>
+    <string name="detail_reviews_placeholder">No Reviews available</string>
     <string name="detail_release_date_titel">Year of release</string>
     <string name="detail_rating_title">Rating: </string>
 
     <string name="action_share">Share</string>
 
     <string name="pref_favorites">Pref_Favorites</string>
+
+    <string name="offline_text">Offline. Here are your favorite movies.</string>
 </resources>

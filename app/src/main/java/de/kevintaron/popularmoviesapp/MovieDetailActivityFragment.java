@@ -44,6 +44,11 @@ public class MovieDetailActivityFragment extends Fragment {
     @Bind(R.id.detail_movie_release) TextView release;
     @Bind(R.id.detail_movie_fav) ImageView fav;
     @Bind(R.id.trailer_list) LinearLayout trailers;
+    @Bind(R.id.review_list) LinearLayout reviews;
+
+    @Bind(R.id.trailer_list_placeholder) TextView trailerPlaceholder;
+    @Bind(R.id.review_list_placeholder) TextView reviewPlaceholder;
+
 
     @BindDrawable(android.R.drawable.star_off) Drawable star_off;
     @BindDrawable(android.R.drawable.star_on) Drawable star_on;
@@ -170,8 +175,39 @@ public class MovieDetailActivityFragment extends Fragment {
             @Override
             public void run() {
                 trailers.addView(trailer);
+
+                if(trailerPlaceholder != null) {
+                    trailers.removeView(trailerPlaceholder);
+                    trailerPlaceholder = null;
+                }
             }
         });
+
+
+    }
+
+    public void addReview(String author, String content) {
+        final TextView reviewAuthor = new TextView(new ContextThemeWrapper(getActivity(), R.style.ReviewAuthor));
+        reviewAuthor.setText("Author: " + author);
+
+        final TextView reviewContent = new TextView(new ContextThemeWrapper(getActivity(), R.style.ReviewContent));
+        reviewContent.setText(content);
+
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                reviews.addView(reviewAuthor);
+                reviews.addView(reviewContent);
+
+                if(reviewPlaceholder != null) {
+                    reviews.removeView(reviewPlaceholder);
+                    reviewPlaceholder = null;
+                }
+
+            }
+        });
+
+
     }
 
     private void fetchMovieDetails() {

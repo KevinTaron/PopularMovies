@@ -203,9 +203,58 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/trailer_list">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/detail_trailer_placeholder"
+                                style="@style/TrailerStyle"
+                                android:id="@+id/trailer_list_placeholder" />
                         </LinearLayout>
 
 
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="@string/detail_reviews_title"
+                            android:id="@+id/textView2"
+                            android:textSize="10sp"
+                            android:singleLine="true" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:id="@+id/review_list">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/detail_reviews_placeholder"
+                                style="@style/ReviewContent"
+                                android:paddingTop="10dp"
+                                android:textStyle="normal"
+                                android:id="@+id/review_list_placeholder" />
+                            </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
