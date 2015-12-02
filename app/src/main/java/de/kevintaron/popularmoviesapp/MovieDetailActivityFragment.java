@@ -36,28 +36,42 @@ import de.kevintaron.popularmoviesapp.models.Movie;
  * A placeholder fragment containing a simple view.
  */
 public class MovieDetailActivityFragment extends Fragment {
-    @Bind(R.id.detail_movie_title_text) TextView title;
-    @Bind(R.id.detail_movie_poster) ImageView poster;
-    @Bind(R.id.detail_movie_summary) TextView summary;
-    @Bind(R.id.detail_movie_rating_bar) RatingBar ratingBar;
-    @Bind(R.id.detail_movie_rating_text) TextView ratingText;
-    @Bind(R.id.detail_movie_release) TextView release;
-    @Bind(R.id.detail_movie_fav) ImageView fav;
-    @Bind(R.id.trailer_list) LinearLayout trailers;
-    @Bind(R.id.review_list) LinearLayout reviews;
+    @Bind(R.id.detail_movie_title_text)
+    private TextView title;
+    @Bind(R.id.detail_movie_poster)
+    private ImageView poster;
+    @Bind(R.id.detail_movie_summary)
+    private TextView summary;
+    @Bind(R.id.detail_movie_rating_bar)
+    private RatingBar ratingBar;
+    @Bind(R.id.detail_movie_rating_text)
+    private TextView ratingText;
+    @Bind(R.id.detail_movie_release)
+    private TextView release;
+    @Bind(R.id.detail_movie_fav)
+    private ImageView fav;
+    @Bind(R.id.trailer_list)
+    private LinearLayout trailers;
+    @Bind(R.id.review_list)
+    private LinearLayout reviews;
 
-    @Bind(R.id.trailer_list_placeholder) TextView trailerPlaceholder;
-    @Bind(R.id.review_list_placeholder) TextView reviewPlaceholder;
+    @Bind(R.id.trailer_list_placeholder)
+    private TextView trailerPlaceholder;
+    @Bind(R.id.review_list_placeholder)
+    private TextView reviewPlaceholder;
 
 
-    @BindDrawable(android.R.drawable.star_off) Drawable star_off;
-    @BindDrawable(android.R.drawable.star_on) Drawable star_on;
+    @BindDrawable(android.R.drawable.star_off)
+    private Drawable star_off;
+    @BindDrawable(android.R.drawable.star_on)
+    private Drawable star_on;
 
-    @BindString(R.string.pref_favorites) String preference_file_key;
+    @BindString(R.string.pref_favorites)
+    private String preference_file_key;
 
-    Movie detail_movie;
-    Context context;
-    SharedPreferences sharedPref;
+    private Movie detail_movie;
+    private Context context;
+    private SharedPreferences sharedPref;
 
     private ShareActionProvider mShareActionProvider;
     private String firstTrailer;
@@ -146,11 +160,7 @@ public class MovieDetailActivityFragment extends Fragment {
     }
 
     private boolean isFavorite() {
-        if(sharedPref.getString(detail_movie.getMovieIdasString(), null) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return sharedPref.getString(detail_movie.getMovieIdasString(), null) != null;
     }
 
     public void onDestroyView() {
@@ -267,7 +277,7 @@ public class MovieDetailActivityFragment extends Fragment {
         this.firstTrailer = "http://youtube.com/watch?v=" + firstTrailer;
     }
 
-    public void share() {
+    private void share() {
         startActivity(createShareTrailerIntent());
     }
 

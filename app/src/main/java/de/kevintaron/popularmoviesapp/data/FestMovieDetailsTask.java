@@ -3,35 +3,34 @@ package de.kevintaron.popularmoviesapp.data;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.kevintaron.popularmoviesapp.MovieDetailActivityFragment;
-import de.kevintaron.popularmoviesapp.models.Movie;
+import de.kevintaron.popularmoviesapp.R;
 
-/**
- * Created by Kevin on 21.09.2015.
- */
 public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
-    public static final String LOG_TAG = FestMovieDetailsTask.class.getSimpleName();
+    private static final String LOG_TAG = FestMovieDetailsTask.class.getSimpleName();
 
-    private String method;
-    private String myapikey;
-    private String movieID;
-    private MovieDetailActivityFragment detailFragment;
+    private final String method;
+    private final String myapikey;
+    private final String movieID;
+    private final MovieDetailActivityFragment detailFragment;
 
     // These two need to be declared outside the try/catch
     // so that they can be closed in the finally block.
-    HttpURLConnection urlConnection = null;
-    BufferedReader reader = null;
+    private HttpURLConnection urlConnection = null;
+    private BufferedReader reader = null;
 
 
     public FestMovieDetailsTask(MovieDetailActivityFragment thefragment, String method, String movieID) {
@@ -45,17 +44,14 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         Log.i(LOG_TAG, "Start Sync");
 
-        String movieJsonStr = null;
-        Movie[] movieList = null;
+        String movieJsonStr;
 
         try {
             String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
             MOVIE_BASE_URL += this.movieID + "/";
             MOVIE_BASE_URL += this.method;
 
-            final String SORT_PARAM = "sort_by";
             final String APIKEY_PARAM = "api_key";
-            final String PAGE_PARAM = "page";
 
             Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
                     .appendQueryParameter(APIKEY_PARAM, myapikey)
@@ -94,23 +90,21 @@ public class FestMovieDetailsTask extends AsyncTask<String, Void, Void> {
 
             Log.i(LOG_TAG, "JSON: " + movieJsonStr);
 
-            if(method == "videos") {
+            if (method.equals("videos")) {
                 getVideosFromJson(movieJsonStr);
-            } else if (method == "reviews") {
+            } else if (method.equals("reviews")) {
                 getReviewsFromJson(movieJsonStr);
             }
 
-//            movieList = getMoviesFromJson(movieJsonStr);
-//            return movieList;
+        } catch (FileNotFoundException e) {
+            Toast.makeText(detailFragment.getActivity(), R.string.error_apikey, Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "Error ", e);
+            return null;
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error ", e);
         }
 
         return null;
-    }
-
-    protected void onPostExecute() {
-
     }
 
     private void getReviewsFromJson(String json) throws JSONException {

@@ -20,6 +20,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindString;
 import de.kevintaron.popularmoviesapp.data.FetchMoviesTask;
@@ -27,13 +28,13 @@ import de.kevintaron.popularmoviesapp.models.EndlessScrollListener;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 public class MoviePosterGridActivityFragment extends Fragment {
-    @BindString(R.string.pref_favorites) String preference_file_key;
-    SharedPreferences sharedPref;
+    @BindString(R.string.pref_favorites)
+    private String preference_file_key;
+    private SharedPreferences sharedPref;
 
     private MovieAdapter mGridMovieposterAdapter;
     private FetchMoviesTask moviesTask;
     private String sortMethod = "popular";
-    private GridView gridView;
     private boolean mTwoPane = false;
 
     public MoviePosterGridActivityFragment() {
@@ -48,7 +49,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
         mGridMovieposterAdapter = new MovieAdapter(getActivity(), R.layout.grid_item_movieposter, mymovies);
 
-        gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
+        GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movieposter);
         gridView.setAdapter(mGridMovieposterAdapter);
 
         updateMovies(1);
@@ -79,7 +80,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
             @Override
             public void onLoadMore(int page) {
-                if(sortMethod != "fav") { updateMovies(page); }
+                if(!sortMethod.equals("fav")) { updateMovies(page); }
             }
         });
 
@@ -92,11 +93,7 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private void updateMovies(int page) {
@@ -117,14 +114,14 @@ public class MoviePosterGridActivityFragment extends Fragment {
 
     public void updateSortMethod(String sortMethod) {
         this.sortMethod = sortMethod;
-        if(sortMethod == "fav") {
+        if(sortMethod.equals("fav")) {
             showFavs();
         } else {
             updateMovies(1);
         }
     }
 
-    public void showFavs() {
+    private void showFavs() {
         mGridMovieposterAdapter.clear();
         sharedPref = getActivity().getSharedPreferences(preference_file_key, Context.MODE_PRIVATE);
         Map<String,?> keys = sharedPref.getAll();

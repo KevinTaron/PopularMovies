@@ -3,8 +3,6 @@ package de.kevintaron.popularmoviesapp.models;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-
 
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -13,12 +11,6 @@ import com.raizlabs.android.dbflow.annotation.provider.ContentUri;
 import com.raizlabs.android.dbflow.annotation.provider.TableEndpoint;
 import com.raizlabs.android.dbflow.structure.provider.BaseProviderModel;
 import com.raizlabs.android.dbflow.structure.provider.ContentUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import de.kevintaron.popularmoviesapp.data.MovieDatabase;
 
@@ -30,10 +22,10 @@ import de.kevintaron.popularmoviesapp.data.MovieDatabase;
 @Table(databaseName = MovieDatabase.NAME)
 public class Movie extends BaseProviderModel<Movie> implements Parcelable {
 
-    public static final String NAME = "Movie";
+    private static final String NAME = "Movie";
 
     @ContentUri(path = NAME, type = ContentUri.ContentType.VND_MULTIPLE + NAME)
-    public static final Uri CONTENT_URI = ContentUtils.buildUri(MovieDatabase.AUTHORITY, new String[]{NAME});
+    private static final Uri CONTENT_URI = ContentUtils.buildUri(MovieDatabase.AUTHORITY, new String[]{NAME});
 
 
     @Column
@@ -96,7 +88,7 @@ public class Movie extends BaseProviderModel<Movie> implements Parcelable {
      * Set the ID
      * @param id set the ID
      */
-    public void setMovieId(int id) {
+    private void setMovieId(int id) {
         this.id = id;
     }
 
@@ -112,7 +104,7 @@ public class Movie extends BaseProviderModel<Movie> implements Parcelable {
      * Set the Release Date of the Movie
      * @param release_date set the release Date in YYYY-MM-DD
      */
-    public void setRelease_date(String release_date) {
+    private void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
 
@@ -128,7 +120,7 @@ public class Movie extends BaseProviderModel<Movie> implements Parcelable {
      * Set the Name of the Movie
      * @param name the Moviename
      */
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -144,7 +136,7 @@ public class Movie extends BaseProviderModel<Movie> implements Parcelable {
      * Set the Movieposter URL
      * @param moviePosterURL set the URL
      */
-    public void setMoviePosterURL(String moviePosterURL) {
+    private void setMoviePosterURL(String moviePosterURL) {
         this.moviePosterURL = moviePosterURL;
     }
 
@@ -160,7 +152,7 @@ public class Movie extends BaseProviderModel<Movie> implements Parcelable {
      * Set the Summary
      * @param summary the moviesummary
      */
-    public void setSummary(String summary) {
+    private void setSummary(String summary) {
         this.summary = summary;
     }
 
@@ -176,7 +168,7 @@ public class Movie extends BaseProviderModel<Movie> implements Parcelable {
      * Set the Vote average
      * @param vote_average out of / 10
      */
-    public void setVote_average(float vote_average) {
+    private void setVote_average(float vote_average) {
         this.vote_average = vote_average;
     }
 

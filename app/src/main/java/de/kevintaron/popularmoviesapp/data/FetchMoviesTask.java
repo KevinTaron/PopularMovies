@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -21,21 +22,23 @@ import de.kevintaron.popularmoviesapp.R;
 import de.kevintaron.popularmoviesapp.models.Movie;
 
 public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
-    public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
-    private String myapikey;
-    private MovieAdapter mGridMovieposterAdapter;
+    private static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
+    private final String myapikey;
+    private final MovieAdapter mGridMovieposterAdapter;
     private int page = 1;
-    private boolean addMovie;
-    private String sortMethod;
+    private final boolean addMovie;
+    private final String sortMethod;
+    private Activity myact;
 
     // These two need to be declared outside the try/catch
     // so that they can be closed in the finally block.
-    HttpURLConnection urlConnection = null;
-    BufferedReader reader = null;
+    private HttpURLConnection urlConnection = null;
+    private BufferedReader reader = null;
 
     public FetchMoviesTask(Activity myact, MovieAdapter gridMovieposterAdapter, int page, boolean addMovie, String sortMethod) {
         mGridMovieposterAdapter = gridMovieposterAdapter;
         myapikey = myact.getString(R.string.apikey);
+        this.myact = myact;
         this.page = page;
         this.addMovie = addMovie;
         this.sortMethod = sortMethod;
@@ -47,7 +50,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
 
         String sorting = getSortMethod();
         String movieJsonStr = null;
-        Movie[] movieList = null;
+        Movie[] movieList;
 
         try {
             final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
@@ -103,7 +106,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, Movie[]> {
     private String getSortMethod() {
         String sorting = "popularity.desc";
 
-        if(this.sortMethod == "rated") {
+        if(this.sortMethod.equals("rated")) {
             sorting = "vote_average.desc";
         }
 

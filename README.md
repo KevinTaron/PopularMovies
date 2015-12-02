@@ -21,7 +21,12 @@ These features are included
 + Read reviews
 
 ### Impressions
-
+![Movie Overview](/Screenshots/img1.png "Movie Overview")
+![Menu](/Screenshots/img2.png "Menu")
+![Movie Detail](/Screenshots/img3.png "Movie Detail")
+![Movie Detail 2](/Screenshots/img4.png "Movie Detail 2")
+![Movie Detail 3](/Screenshots/img5.png "Movie Detail 3")
+![Movie Detail 4](/Screenshots/img6.png "Movie Detail 4")
 
 ## Specials
 Please add your personal API-Key to "settings.xml" in the value directory (res).

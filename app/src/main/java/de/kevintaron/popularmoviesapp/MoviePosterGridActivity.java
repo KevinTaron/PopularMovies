@@ -9,9 +9,9 @@ import android.view.MenuItem;
 
 
 public class MoviePosterGridActivity extends AppCompatActivity {
-    boolean splitscreen;
-    FragmentManager fm;
-    MoviePosterGridActivityFragment fragment;
+    private boolean splitscreen;
+    private FragmentManager fm;
+    private MoviePosterGridActivityFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

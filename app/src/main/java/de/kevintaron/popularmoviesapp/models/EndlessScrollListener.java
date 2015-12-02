@@ -4,10 +4,9 @@ import android.widget.AbsListView;
 import android.widget.GridView;
 
 public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
-    private GridView gridView;
+    private final GridView gridView;
     private boolean isLoading;
     private int pageNumber = 1;
-    private int maxPages = 1000;
 
     public EndlessScrollListener(GridView gridView) {
         this.gridView = gridView;
@@ -19,6 +18,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
         if (gridView.getLastVisiblePosition() + 1 == (totalItemCount) && !isLoading) {
             isLoading = true;
             pageNumber++;
+            int maxPages = 1000;
             if(pageNumber < maxPages) {
                 onLoadMore(pageNumber);
             }

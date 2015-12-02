@@ -17,13 +17,11 @@ import de.kevintaron.popularmoviesapp.models.Movie;
  * Movie Adapter - Adapter for Gridview in MoviePosterGridActivityFragment
  */
 public class MovieAdapter extends ArrayAdapter<Movie> {
-    Context context;
-    int layoutResourceId;
-    List<Movie> movies = null;
+    private final Context context;
+    private List<Movie> movies = null;
 
     public MovieAdapter(Context context, int resource, List<Movie> movies) {
         super(context, resource, movies);
-        this.layoutResourceId = resource;
         this.context = context;
         this.movies = movies;
     }

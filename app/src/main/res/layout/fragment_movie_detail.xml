@@ -82,7 +82,8 @@
                                     android:id="@+id/imageView"
                                     android:src="@android:drawable/ic_dialog_info"
                                     android:foregroundTintMode="screen"
-                                    android:tint="@color/primary_material_dark" />
+                                    android:tint="@color/primary_material_dark"
+                                    tools:ignore="UnusedAttribute" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"

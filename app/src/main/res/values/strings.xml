@@ -22,4 +22,5 @@
     <string name="pref_favorites">Pref_Favorites</string>
 
     <string name="offline_text">Offline. Here are your favorite movies.</string>
+    <string name="error_apikey">ERROR: API-KEY NOT USED. PLEASE UPDATE YOUR PROJECT.</string>
 </resources>

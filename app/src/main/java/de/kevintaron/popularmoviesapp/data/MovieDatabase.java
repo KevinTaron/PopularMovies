@@ -12,10 +12,10 @@ public class MovieDatabase {
 
     public static final String NAME = "Movies";
 
-    public static final int VERSION = 1;
+    private static final int VERSION = 1;
 
     public static final String AUTHORITY = "de.kevintaron.popularmovies.movie.provider";
 
-    public static final String BASE_CONTENT_URI = "content://";
+    private static final String BASE_CONTENT_URI = "content://";
 
 }
