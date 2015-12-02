@@ -1,5 +1,6 @@
 # PopularMovies
-Display movies in a userfriendly gridview. Project for udacity android developer nanodegree. https://www.udacity.com/course/android-developer-nanodegree--nd801
+Display movies in a userfriendly gridview. 
+Project for udacity android developer nanodegree: https://www.udacity.com/course/android-developer-nanodegree--nd801
 
 Overview
 + Android App to show popular Movies
